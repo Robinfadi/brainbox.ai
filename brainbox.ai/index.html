@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BrainBoxAI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .price-tag {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.price-tag.free {
+  background-color: green;
+}
+
+.price-tag.paid {
+  background-color: red;
+}
+  
+
+    html {
+      scroll-behavior: smooth;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #0f0f1a, #380d55);
+      color: white;
+      min-height: 100vh;
+      
+    }
+
+    .diagonal-line {
+      position: fixed;
+      width: 300px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      transform: rotate(45deg);
+      animation: moveLines 20s linear infinite;
+      
+    }
+
+    .diagonal-line:nth-child(1) {
+      top: 10%;
+      left: 10%;
+    }
+
+    .diagonal-line:nth-child(2) {
+      top: 30%;
+      left: 50%;
+    }
+
+    .diagonal-line:nth-child(3) {
+      top: 70%;
+      left: 20%;
+    }
+
+    .diagonal-line:nth-child(4) {
+      top: 50%;
+      left: 80%;
+    }
+
+    .diagonal-line:nth-child(5) {
+      top: 85%;
+      left: 5   0%;
+    }
+    .diagonal-line:nth-child(6) {
+      top: 50%;
+      left: 1%;
+    }
+    .diagonal-line:nth-child(7) {
+      top: 70%;
+      left: 55%;
+    }
+
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background-color: #0f0f1a;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #b94df4, #58d5f4);
+      -webkit-background-clip: text; /* For WebKit-based browsers like Chrome, Safari */
+      background-clip: text; /* Standard property for broader compatibility */
+      -webkit-text-fill-color: transparent;
+    }
+
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #aaa;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active {
+      color: #00bcd4;
+      border-bottom: 2px solid white;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .hero h2 {
+      font-size: 32px;
+      color: #b94df4;
+      margin: 10px 0;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #ccc;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .search-bar {
+      margin-top: 30px;
+    }
+
+    .search-bar input {
+      width: 90%;
+      max-width: 600px;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      background-color: #1e1e2f;
+      color: white;
+      outline: none;
+    }
+
+    .tools-section {
+      padding: 40px 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .tool-card {
+      background-color: #1e1e2f;
+      border-radius: 15px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .tool-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .tool-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .tool-card p {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #b94df4;
+      transition: 0.3s;
+    }
+
+    .fav-btn.active {
+      color: gold;
+    }
+
+    .fav-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .filter {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .filter select {
+      background: #1e1e2f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .site-footer {
+  background-color: #0f0f1a;
+  color: #fff;
+  padding: 40px 0;;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  margin-bottom: 15px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00bcd4; 
+}
+
+.site-footer p {
+  font-size: 14px;
+  margin: 0;
+}
+.about-us {
+    max-width: 405px;
+    text-align: left;
+    
+}
+
+
+  </style>
+</head>
+<body>
+    <div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+        <div class="diagonal-line"></div>
+      </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    
+    <div class="logo"><a href="#all-tools">BrainBoxAI</a></div>
+    <ul class="nav-links">
+      <li><a onclick="scrollToSection('all-tools')">All Tools</a></li>
+      <li><a onclick="scrollToSection('favorites')">⭐ Favorites</a></li>
+      <li><a href="#footer">Contact Us</a></li>
+      <li><a href="#footer">About Us</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <br><br><br>
+    <div class="logo"> <h1>Advanced AI Tools Collection</h1>
+        <h2>BrainBoxAI</h2></div>
+        <br><br><br>
+    <p>Discover and compare cutting-edge AI tools to supercharge your productivity, creativity, and workflow.</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search AI tools, categories, or features...">
+    </div>
+  </header>
+  <br><br><br><br><br><br><br><br>
+
+  <!-- Category Filter -->
+  <div class="filter">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="chat">Chatbot</option>
+      <option value="video">Video</option>
+      <option value="design">Design</option>
+      <option value="image">Image Generation</option>
+      <option value="meeting">Meeting</option>
+      <option value="research">Research</option>
+      <option value="writing">Writing</option>
+        <option value="search">Search</option>
+        <option value="social">Social Media</option>
+        <option value="app-building">App Building</option>
+        <option value="project-management">Project Management</option>
+        <option value="scheduling">Scheduling</option>
+        <option value="customer-service">Customer Service</option>
+        <option value="recruitment">Recruitment</option>
+        <option value="knowledge-management">Knowledge Management</option>
+        <option value="email">Email Management</option>
+        <option value="presentations">Presentations</option>
+        <option value="resumes">Resumes</option>
+        <option value="voice">Voice Generation</option>
+        <option value="music">Music Generation</option>
+        <option value="marketing">Marketing</option>
+        <option value="sales">Sales</option>
+    </select>
+  </div>
+
+  <!-- Tools Section -->
+  <section id="all-tools" class="tools-section">
+    <!-- Cards will be generated here -->
+  </section>
+  
+  <div style="text-align:center; margin-top: 20px;">
+    <button id="exploreMoreBtn" style="padding: 10px 20px; font-size: 16px; border: none; border-radius: 8px; background-color: #b94df4; color: white; cursor: pointer;">
+      Explore More
+    </button>
+  </div>
+
+  <hr style="border: none; border-top: 3px solid #444; margin: 2rem auto; width: 60%;">  
+  
+<section id="favorites" class="tools-section">
+    <!-- Favorite cards will appear here -->
+  </section>
+
+  <script>
+    const tools = [
+    
+  {
+    id: "chatgpt",
+    name: "ChatGPT",
+    desc: "AI chatbot that helps with writing, coding, answering questions, and more.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+    link: "https://chat.openai.com",
+    category: "chat",
+    price: "Freemium"
+  },
+  {
+    id: "claude",
+    name: "Claude",
+    desc: "AI assistant by Anthropic for safe and intelligent conversations.",
+    image: "https://www.paubox.com/hubfs/Is%20Claude%20AI%20HIPAA%20compliant.jpg",
+    link: "https://claude.ai",
+    category: "chat",
+    price: "Freemium"
+  },
+  {
+    id: "gemini",
+    name: "Gemini",
+    desc: "Google’s AI assistant for writing, planning, research, and image understanding.",
+    image: "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Copy_of_Blog_Headers_-_3_1_3.original.png",
+    link: "https://gemini.google.com",
+    category: "chat",
+    price: "Freemium"
+  },
+  {
+    id: "deepseek",
+    name: "DeepSeek",
+    desc: "Free and intelligent chatbot with no login required.",
+    image: "https://images.fastcompany.com/image/upload/f_webp,q_auto,c_fit,w_1024/wp-cms-2/2025/01/i-0-91268357-deepseek-logo.jpg",
+    link: "https://deepseek.com",
+    category: "chat",
+    price: "Free"
+  },
+  {
+    id: "grok",
+    name: "Grok",
+    desc: "AI chatbot by xAI integrated with X (Twitter).",
+    image: "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/grok.png",
+    link: "https://x.ai",
+    category: "chat",
+    price: "Freemium"
+  },
+  {
+    id: "synthesia",
+    name: "Synthesia",
+    desc: "Generate AI videos with avatars from text.",
+    image: "https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/2823/posts/107126/image-upload/synthesia_header_image.jpg",
+    link: "https://www.synthesia.io",
+    category: "video",
+    price: "Freemium"
+  },
+  {
+    id: "runway",
+    name: "Runway",
+    desc: "Video editing and text-to-video generation tool.",
+    image: "https://cdn.dribbble.com/userupload/6620639/file/original-22c8662cf544017b4f359c7d95fd55d3.jpg?resize=1024x768&vertical=center",
+    link: "https://runwayml.com",
+    category: "video",
+    price: "Freemium"
+  },
+  {
+    id: "filmora",
+    name: "Filmora",
+    desc: "User-friendly video editing software with AI features.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/6/6b/Filmora_logotype.jpg?20191206161512",
+    link: "https://filmora.wondershare.com",
+    category: "video",
+    price: "Freemium"
+  },
+  {
+    id: "opusclip",
+    name: "OpusClip",
+    desc: "AI repurposing tool that turns long videos into viral short clips.",
+    image: "https://static.wixstatic.com/media/117eff_4549131f7d874051983f2b5d165b21c1~mv2.png/v1/fill/w_257,h_257,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/117eff_4549131f7d874051983f2b5d165b21c1~mv2.png",
+    link: "https://www.opus.pro",
+    category: "video",
+    price: "Freemium"
+  },
+  {
+    id: "gpt-4o",
+    name: "GPT-4o",
+    desc: "OpenAI's multimodal model capable of text, image, and audio understanding.",
+    image: "https://sm.pcmag.com/t/pcmag_me/review/c/chatgpt-4o/chatgpt-4o_9w63.1920.jpg",
+    link: "https://openai.com/index/introducing-4o-image-generation/",
+    category: "image",
+    price: "Freemium"
+  },
+  {
+    id: "midjourney",
+    name: "Midjourney",
+    desc: "AI tool for generating stunning and artistic images from text.",
+    image: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F825c9925-8d0d-4abb-93c7-d9478c8cb949_1018x561.png",
+    link: "https://midjourney.com",
+    category: "image",
+    price: "Paid"
+  },
+  {
+    id: "fathom",
+    name: "Fathom",
+    desc: "AI notetaker for Zoom and other video conferencing platforms.",
+    image: "https://freeappsai.com/wp-content/uploads/2024/03/Fathom.jpg",
+    link: "https://fathom.video",
+    category: "meeting",
+    price: "Freemium"
+  },
+  {
+    id: "nyota",
+    name: "Nyota",
+    desc: "Meeting assistant and note summarization tool.",
+    image: "https://cdn.prod.website-files.com/6392f54210990d7ffbfca55f/67f7dc5a72464049a59cefc5_Nyota-Logo---Cover-Image-for-Product-Hub-made-by-Zefi-.jpeg",
+    link: "https://nyota.ai",
+    category: "meeting",
+    price: "Freemium"
+  },
+  {
+    id: "deepresearch",
+    name: "Deep Research",
+    desc: "AI tool to perform deep and automated research tasks.",
+    image: "https://www.helicone.ai/_next/image?url=%2Fstatic%2Fblog%2Fopenai-deep-research%2Fdeep-reearch-cover.webp&w=828&q=75",
+    link: "https://deepresearch.ai",
+    category: "research",
+    price: "Freemium"
+  },
+  {
+    id: "rytr",
+    name: "Rytr",
+    desc: "AI writing assistant to help generate content in seconds.",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ9cZZet_33soscJCwtE-dP3C-D0W2akWWVw&s",
+    link: "https://rytr.me",
+    category: "writing",
+    price: "Freemium"
+  },
+  {
+    id: "sudowrite",
+    name: "Sudowrite",
+    desc: "Creative writing assistant powered by GPT for authors.",
+    image: "https://miro.medium.com/v2/resize:fit:720/format:webp/1*AWW7xF9WRLP-LwgQSeSVPg.jpeg",
+    link: "https://www.sudowrite.com",
+    category: "writing",
+    price: "Freemium"
+  },
+  {
+    id: "grammarly",
+    name: "Grammarly",
+    desc: "Grammar checker and writing enhancement tool.",
+    image: "https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/678a4751949a09001da1cec9.png",
+    link: "https://grammarly.com",
+    category: "writing",
+    price: "Freemium"
+  },
+  {
+    id: "wordtune",
+    name: "Wordtune",
+    desc: "AI writing tool to improve and rewrite sentences.",
+    image: "https://cdn.prod.website-files.com/64f605bdfa749671fed117a9/651b7df02626ad84ed6e5eb9_Wordtune%20AI.png",
+    link: "https://www.wordtune.com",
+    category: "writing",
+    price: "Freemium"
+  },
+  {
+    id: "perplexity",
+    name: "Perplexity",
+    desc: "AI-powered search engine that answers with sources.",
+    image: "https://cdn.neowin.com/news/images/uploaded/2024/01/1704431339_perplexity_story.jpg",
+    link: "https://www.perplexity.ai",
+    category: "search",
+    price: "Freemium"
+  },
+  {
+    id: "chatgptsearch",
+    name: "ChatGPT search",
+    desc: "Web-integrated search feature of ChatGPT with real-time results.",
+    image: "https://helios-i.mashable.com/imagery/articles/00X5HsBqN7xvXHCn8IIKPib/hero-image.fill.size_1248x702.v1715356716.jpg",
+    link: "https://chat.openai.com",
+    category: "search",
+    price: "Freemium"
+  },
+  {
+    id: "vistasocial",
+    name: "Vista Social",
+    desc: "AI-powered social media management tool.",
+    image: "https://sharehubtech.com/uploads/images/Tools-logo/vistasocial.jpg",
+    link: "https://vistasocial.com",
+    category: "social",
+    price: "Freemium"
+  },
+  {
+    id: "feedhive",
+    name: "FeedHive",
+    desc: "Social media scheduler with AI content generation.",
+    image: "https://cdn.dealmango.com/wp-content/uploads/2021/12/FeedHive-Lifetime-Deal-on-Appsumo.jpg",
+    link: "https://feedhive.io",
+    category: "social",
+    price: "Freemium"
+  },
+  {
+    id: "canva",
+    name: "Canva Magic Studio",
+    desc: "Graphic design tool with AI-powered content creation.",
+    image: "https://businesslink.ca/wp-content/uploads/2024/04/HeaderCover-Blogs-min-2-scaled-1.webp",
+    link: "https://www.canva.com/magic-studio/",
+    category: "design",
+    price: "Freemium"
+  },
+  {
+    id: "looka",
+    name: "Looka",
+    desc: "Logo and brand identity design tool powered by AI.",
+    image: "https://logowik.com/content/uploads/images/looka1513.logowik.com.webp",
+    link: "https://looka.com",
+    category: "design",
+    price: "Freemium"
+  },
+  {
+    id: "clay",
+    name: "Clay",
+    desc: "AI tool for lead generation and personalization in sales.",
+    image: "https://freeappsai.com/wp-content/uploads/2024/09/Clay.jpg",
+    link: "https://clay.com",
+    category: "sales",
+    price: "Freemium"
+  },
+  {
+    id: "bubble",
+    name: "Bubble",
+    desc: "No-code platform to build fully-functional web apps powered by AI.",
+    image: "https://logowik.com/content/uploads/images/bubble1513.logowik.com.webp",
+    link: "https://bubble.io",
+    category: "app-building",
+    price: "Freemium"
+  },
+  {
+    id: "bolt",
+    name: "Bolt",
+    desc: "AI-powered app builder with drag-and-drop functionality.",
+    image: "https://images-platform.99static.com/_NV8517yrgsl7MT-I6vWFWq02e0=/133x3130:867x3863/fit-in/99designs-contests-attachments/144/144292/attachment_144292598",
+    link: "https://www.bolt.com",
+    category: "app-building",
+    price: "Freemium"
+  },
+  {
+    id: "lovable",
+    name: "Lovable",
+    desc: "AI-based platform for creating apps and interactive experiences.",
+    image: "https://logowik.com/content/uploads/images/lovable2155.logowik.com.webp",
+    link: "https://lovable.dev",
+    category: "app-building",
+    price: "Freemium"
+  },
+  {
+    id: "cursor",
+    name: "Cursor",
+    desc: "AI-powered code editor that assists developers with writing better code.",
+    image: "https://images.indiehackers.com/post-images/UJu7H1MTEfYx0Yy871jV/tSHyRvzNLWPnx4sBYEdtWkmq4u93/cursor%20logo-words.jpg",
+    link: "https://www.cursor.so",
+    category: "app-building",
+    price: "Freemium"
+  },
+  {
+    id: "v0",
+    name: "v0",
+    desc: "AI tool for developing zero-code applications with advanced customization.",
+    image: "https://logowik.com/content/uploads/images/v0-ai1721420586.logowik.com.webp",
+    link: "https://v0.app",
+    category: "app-building",
+    price: "Freemium"
+  },
+  {
+    id: "asana",
+    name: "Asana",
+    desc: "Project management tool with AI features for team collaboration and task tracking.",
+    image: "https://assets.asana.biz/transform/edf1d14a-18fc-468c-98bd-013dcfddbb7c/logo-primary-dark",
+    link: "https://asana.com",
+    category: "project-management",
+    price: "Freemium"
+  },
+  {
+    id: "cursor",
+    name: "Cursor",
+    desc: "AI-powered code editor that assists developers with writing better code.",
+    image: "https://images.indiehackers.com/post-images/UJu7H1MTEfYx0Yy871jV/tSHyRvzNLWPnx4sBYEdtWkmq4u93/cursor%20logo-words.jpg?w=700",
+    link: "https://www.cursor.so",
+    category: "app-building",
+    price: "Freemium"
+
+  },
+  {
+    id: "v0",
+    name: "v0",
+    desc: "AI tool for developing zero-code applications with advanced customization.",
+    image: "https://logowik.com/content/uploads/images/v0-ai1721420586.logowik.com.webp",
+    link: "https://v0.app",
+    category: "app-building",
+    price: "Freemium"
+
+  },
+  {
+    id: "asana",
+    name: "Asana",
+    desc: "Project management tool with AI features for team collaboration and task tracking.",
+    image: "https://assets.asana.biz/transform/edf1d14a-18fc-468c-98bd-013dcfddbb7c/logo-primary-dark",
+    link: "https://asana.com",
+    category: "project-management",
+    price: "Freemium"
+
+  },
+  {
+    id: "clickup",
+    name: "ClickUp",
+    desc: "Task management and productivity tool with AI-driven insights.",
+    image: "https://i.pinimg.com/474x/38/7f/e5/387fe54b6b8297032b9cb0a5f4214a65.jpg",
+    link: "https://clickup.com",
+    category: "project-management",
+    price: "Freemium"
+
+  },
+  {
+    id: "reclaim",
+    name: "Reclaim",
+    desc: "AI scheduling assistant for optimizing work-life balance.",
+    image: "https://files.raycast.com/sxrai2h4l4rrfou5ykibqbdn46ll",
+    link: "https://reclaim.ai",
+    category: "scheduling",
+    price: "Freemium"
+
+  },
+  {
+    id: "clockwise",
+    name: "Clockwise",
+    desc: "AI-powered calendar management and scheduling assistant.",
+    image: "https://framerusercontent.com/images/UsVWSZ3gnwW8xUDtjvLW8GDIQ.png",
+    link: "https://www.clockwise.com",
+    category: "scheduling",
+    price: "Freemium"
+  },
+  {
+    id: "tidio",
+    name: "Tidio AI",
+    desc: "AI chatbot and live chat platform for customer service automation.",
+    image: "https://www.tidio.com/wp-content/uploads/tidio-logo-square.png",
+    link: "https://www.tidio.com",
+    category: "customer-service", 
+    price: "Freemium"
+  },
+  {
+    id: "hiver",
+    name: "Hiver",
+    desc: "AI-driven customer support and helpdesk platform.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/1/17/Hiver_logo.png",
+    link: "https://www.hiverhq.com",
+    category: "customer-service",
+    price: "paid"
+  },
+  {
+    id: "textio",
+    name: "Textio",
+    desc: "AI-powered writing assistant for inclusive and engaging recruitment content.",
+    image: "https://textio.com/hubfs/raw_assets/public/textio/static/images/blog-placeholder.png",
+    link: "https://www.textio.com",
+    category: "recruitment",
+    price: "paid"
+  },
+  {
+    id: "cvviz",
+    name: "CVViZ",
+    desc: "AI-driven recruitment platform for smarter hiring decisions.",
+    image: "https://5.imimg.com/data5/SELLER/Default/2023/7/327367270/BN/AK/DC/140634647/cvviz-recruitment-crm-software.jpg",
+    link: "https://cvviz.com",
+    category: "recruitment",
+    price: "Freemium"
+
+  },
+  {
+    id: "notionai",
+    name: "Notion AI Q&A",
+    desc: "AI-powered assistant for quick knowledge extraction and management.",
+    image: "https://aview.in/wp-content/uploads/2023/10/Notion-AI.webp",
+    link: "https://www.notion.so",
+    category: "knowledge-management",
+    price: "Freemium"
+
+  },
+  {
+    id: "guru",
+    name: "Guru",
+    desc: "AI-driven knowledge management platform for organizing company data.",
+    image: "https://store-images.s-microsoft.com/image/apps.44484.1ba0a7ea-0cef-493e-9f30-42b38ec2e2d1.21dca9b4-7ccb-42f1-9918-6ba54bdf7686.7ecb090f-3e34-4d80-a8d7-a4fb8a1249f9.png",
+    link: "https://www.guru.com",
+    category: "knowledge-management",
+    price: "Freemium"
+
+  },
+  {
+    id: "hubspotemailwriter",
+    name: "Hubspot Email Writer",
+    desc: "AI tool that helps users create personalized and effective emails.",
+    image: "https://www.tkg.com/hubfs/10_Reasons_to_use_Hubspot.jpg",
+    link: "https://www.hubspot.com/email-marketing",
+    category: "email",
+    price: "Freemium"
+
+  },
+  {
+    id: "sanebox",
+    name: "SaneBox",
+    desc: "AI-powered email organization tool that filters important messages.",
+    image: "https://www.visasoutheasteurope.com/content/dam/VCOM/regional/cemea/generic-cemea/run-your-business/small-business-tools/small-business-hub/partners/sanebox-800x450.jpg",
+    link: "https://www.sanebox.com",
+    category: "email",
+    price: "paid"
+  },
+  {
+    id: "shortwave",
+    name: "Shortwave",
+    desc: "AI-driven email management tool for productivity and focus.",
+    image: "https://freeappsai.com/wp-content/uploads/2024/11/Shortwave.jpg",
+    link: "https://www.shortwave.com",
+    category: "email",
+    price: "Freemium"
+
+  },
+  {
+    id: "gamma",
+    name: "Gamma",
+    desc: "AI-powered presentation generator to create slides instantly.",
+    image: "https://cdn.dribbble.com/userupload/8299491/file/still-c6ad89962de9948f89c8fd1f936713fd.png",
+    link: "https://www.gamma.app",
+    category: "presentations",
+    price: "Freemium"
+
+  },
+  {
+    id: "presentationsai",
+    name: "Presentations.ai",
+    desc: "AI tool to automate presentation creation and slide design.",
+    image: "https://samanthabrandon.com/wp-content/uploads/2023/04/Screen-Shot-2023-04-21-at-9.44.55-AM.png",
+    link: "https://www.presentations.ai",
+    category: "presentations",
+    price: "Freemium"
+  },
+  {
+    id: "teal",
+    name: "Teal",
+    desc: "AI-powered resume builder that helps users create professional resumes.",
+    image: "https://i.pinimg.com/736x/74/08/0d/74080d355e44b4dff7af55a935b36c67.jpg",
+    link: "https://www.tealhq.com",
+    category: "resumes",
+    price: "Freemium"
+  },
+  {
+    id: "kickresume",
+    name: "Kickresume",
+    desc: "AI-powered resume builder with templates and guidance.",
+    image: "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/eof0pdoge2nykd2tszjh",
+    link: "https://www.kickresume.com",
+    category: "resumes",
+    price: "Freemium"
+
+  },
+  {
+    id: "elevenlabs",
+    name: "ElevenLabs",
+    desc: "AI tool for generating realistic voices for text-to-speech.",
+    image: "https://diplo-media.s3.eu-central-1.amazonaws.com/2025/01/elevenlabs-funding-round-NEA-World-Innovation-Lab-AI.png",
+    link: "https://www.elevenlabs.io",
+    category: "voice",
+    price: "Freemium"
+  },
+  {
+    id: "murf",
+    name: "Murf",
+    desc: "AI-powered voice generation platform for content creators and businesses.",
+    image: "https://freeappsai.com/wp-content/uploads/2024/12/Murf-ai.jpg",
+    link: "https://murf.ai",
+    category: "voice",
+    price: "Freemium"
+  },
+  {
+    id: "suno",
+    name: "Suno",
+    desc: "AI tool for music generation and sound creation.",
+    image: "https://cdn.theorg.com/176cde00-ca19-4982-9065-6829d73829c9_medium.jpg",
+    link: "https://suno.ai",
+    category: "music",
+    price: "Freemium"
+  },
+  {
+    id: "udio",
+    name: "Udio",
+    desc: "AI-powered platform for generating unique music compositions.",
+    image: "https://www.aimusicpreneur.com/wp-content/uploads/2024/04/udio-ai-music-generator.jpeg",
+    link: "https://udio.ai",
+    category: "music",
+    price: "Freemium"
+  },
+  {
+    id: "adcreative",
+    name: "AdCreative",
+    desc: "AI tool to automatically generate creative ads for businesses.",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfQ39pSMMQcP90eVekzOpjSvTsFMdqQQ-wSQ&s",
+    link: "https://www.adcreative.ai",
+    category: "marketing",
+    price: "Freemium"
+  }
+
+
+
+    ];
+    
+
+  
+
+    const favKey = "ai-favorites";
+    let favs = JSON.parse(localStorage.getItem(favKey)) || {};
+
+    const allToolsSection = document.getElementById("all-tools");
+    const favoritesSection = document.getElementById("favorites");
+
+    function renderTools() {
+      allToolsSection.innerHTML = "";
+      favoritesSection.innerHTML = "";
+
+      tools.forEach(tool => {
+        const card = document.createElement("div");
+        card.className = "tool-card";
+        card.dataset.id = tool.id;
+        card.dataset.category = tool.category;
+
+        card.innerHTML = `
+  <button class="fav-btn ${favs[tool.id] ? "active" : ""}">⭐</button>
+  <img src="${tool.image}" alt="${tool.name}" />
+  <h3>${tool.name}</h3>
+  <p>${tool.desc}</p>
+  <span class="price-tag ${
+    tool.price === 'Free' ? 'free' :
+    tool.price === 'Freemium' ? 'freemium' : 'paid'
+  }">${tool.price}</span>
+`;
+
+
+
+        card.addEventListener("click", (e) => {
+          if (e.target.classList.contains("fav-btn")) return;
+          window.open(tool.link, "_blank");
+        });
+
+        const favBtn = card.querySelector(".fav-btn");
+        favBtn.addEventListener("click", () => {
+          favs[tool.id] = !favs[tool.id];
+          localStorage.setItem(favKey, JSON.stringify(favs));
+          renderTools(); // re-render
+        });
+
+        allToolsSection.appendChild(card);
+
+        if (favs[tool.id]) {
+          const favCard = card.cloneNode(true);
+          favCard.querySelector(".fav-btn").addEventListener("click", () => {
+            favs[tool.id] = !favs[tool.id];
+            localStorage.setItem(favKey, JSON.stringify(favs));
+            renderTools();
+          });
+          favCard.addEventListener("click", (e) => {
+            if (e.target.classList.contains("fav-btn")) return;
+            window.open(tool.link, "_blank");
+          });
+          favoritesSection.appendChild(favCard);
+        }
+      });
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("searchInput").addEventListener("input", e => {
+      const query = e.target.value.toLowerCase();
+      document.querySelectorAll(".tool-card").forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        const desc = card.querySelector("p").textContent.toLowerCase();
+        card.style.display = (name.includes(query) || desc.includes(query)) ? "block" : "none";
+      });
+    });
+
+    document.getElementById("categoryFilter").addEventListener("change", e => {
+      const val = e.target.value;
+      document.querySelectorAll(".tool-card").forEach(card => {
+        card.style.display = (val === "all" || card.dataset.category === val) ? "block" : "none";
+      });
+    });
+
+    
+let currentLimit = 20;
+
+function renderTools(limit = currentLimit) {
+  allToolsSection.innerHTML = "";
+  favoritesSection.innerHTML = "";
+
+  const visibleTools = tools.slice(0, limit);
+  visibleTools.forEach(tool => {
+    const card = createToolCard(tool);
+    allToolsSection.appendChild(card);
+
+    if (favs[tool.id]) {
+      const favCard = card.cloneNode(true);
+      setupCardEvents(favCard, tool);
+      favoritesSection.appendChild(favCard);
+    }
+  });
+}
+
+function createToolCard(tool) {
+  const card = document.createElement("div");
+  card.className = "tool-card";
+  card.dataset.id = tool.id;
+  card.dataset.category = tool.category;
+
+  card.innerHTML = `
+    <button class="fav-btn ${favs[tool.id] ? "active" : ""}">⭐</button>
+    <img src="${tool.image}" alt="${tool.name}" />
+    <h3>${tool.name}</h3>
+    <p>${tool.desc}</p>
+    <span class="price-tag ${
+      tool.price === 'Free' ? 'free' :
+      tool.price === 'Freemium' ? 'freemium' : 'paid'
+    }">${tool.price}</span>
+  `;
+
+  setupCardEvents(card, tool);
+  return card;
+}
+
+function setupCardEvents(card, tool) {
+  card.addEventListener("click", (e) => {
+    if (e.target.classList.contains("fav-btn")) return;
+    window.open(tool.link, "_blank");
+  });
+
+  const favBtn = card.querySelector(".fav-btn");
+  favBtn.addEventListener("click", () => {
+    favs[tool.id] = !favs[tool.id];
+    localStorage.setItem(favKey, JSON.stringify(favs));
+    renderTools();
+  });
+}
+
+document.getElementById("exploreMoreBtn").addEventListener("click", () => {
+  currentLimit = tools.length;
+  renderTools();
+  document.getElementById("exploreMoreBtn").style.display = "none";
+});
+
+renderTools();
+
+</script>
+
+  </html>
+</body>
+<footer id="footer" class="site-footer">
+    <div class="footer-content">
+        
+      <div class="footer-links">
+        <table style="width: 100%;">
+            <td>
+                <a href="#about" style="margin-left: 4cm;">About Us </a>
+                <div class="about-us">
+                    <br>
+                <P style="font-size: x-small;">BrainBoxAI is your go-to platform to explore the ever-evolving world of artificial intelligence.
+                    We curate and categorize the best AI tools out there — from chatbots to design assistants — all in one sleek, modern interface.</p>
+                <p style="font-size: x-small;"> Whether you're a developer, designer, content creator, or just curious about what AI can do, BrainBoxAI helps you:</p>
+                <p style="font-size: x-small;">🔍 Discover tools by category</p>
+                <p style="font-size: x-small;"> ⭐ Rate and favorite your go-to apps</p>
+                <p style="font-size: x-small;"> 🌑 Enjoy a clean dark-mode interface</p>
+                <p style="font-size: x-small;"> 🛠 Stay updated with the latest in AI innovation</p>
+                <p style="font-size: x-small;">  Our mission is simple: Make AI tools accessible, organized, and enjoyable to explore.</p>
+                </div>
+            </td>
+
+            <td style="text-align: right;">
+
+        <div>
+        <a href="#contact :" style="margin-right: 2cm;">Contact Us</a>
+        <br> <br> <br> 
+        <div style="margin-right: 2.3cm;">
+              
+            <a href="mailto:robn.fady@gmail.com" target="_blank" title="Email">
+                <svg fill="#ccc" height="24" width="24" viewBox="0 0 24 24">
+                  <path d="M12 13.5l8-6V6l-8 6-8-6v1.5l8 6zm0 2.5c-4.42 0-8-3.58-8-8S7.58 0 12 0s8 3.58 8 8-3.58 8-8 8z"/>
+                </svg>
+              </a>
+              <br> <br>
+              <a href="https://github.com/Robinfadi" target="_blank" title="GitHub">
+                <svg fill="#ccc" height="24" width="24" viewBox="0 0 24 24">
+                  <path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 008 11c.58.1.79-.25.79-.56v-2.02c-3.25.7-3.93-1.57-3.93-1.57-.52-1.31-1.27-1.66-1.27-1.66-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.02 1.75 2.69 1.24 3.34.95.1-.74.4-1.24.73-1.52-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.33 1.2-3.15-.12-.3-.52-1.5.12-3.13 0 0 .97-.31 3.18 1.2a11.09 11.09 0 015.8 0c2.21-1.51 3.18-1.2 3.18-1.2.64 1.63.24 2.83.12 3.13.75.82 1.2 1.87 1.2 3.15 0 4.5-2.75 5.48-5.37 5.77.42.36.8 1.09.8 2.2v3.27c0 .3.21.65.8.54A11.5 11.5 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/>
+                </svg>
+              </a>
+              <br> <br>
+              <a href="https://www.instagram.com/robinfadi?igsh=eHU4anpkaGZlZXpm" target="_blank" title="Instagram">
+                <svg fill="#ccc" height="24" width="24" viewBox="0 0 24 24">
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zm4.25 3a5.25 5.25 0 110 10.5 5.25 5.25 0 010-10.5zm0 1.5a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zm4.5-.75a1.125 1.125 0 110 2.25 1.125 1.125 0 010-2.25z"/>
+                </svg>
+              </a>
+        </div>
+        </div>
+             </td>
+    </table>
+    <br>
+    </div>
+      </div>
+      <hr style="border: none; border-top: 1px solid #444; margin: 2rem auto; width: 30%;">  
+
+      <p style="text-align: center;">&copy; 2025 BrainBoxAI. All rights reserved.</p><br>
+      <h2 class="logo" style="text-align: center;">developed by Robin Fadi and Ahmed Sufian</h2>
+    </div>
+  </footer>
+</html>
